@@ -4,18 +4,87 @@ import 'package:moedas/components/my_button.dart';
 import 'package:moedas/components/my_textfield.dart';
 import 'package:moedas/components/square_tile.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({Key? key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
+
   final senhaController = TextEditingController();
 
   void signUserIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: senhaController.text,
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: senhaController.text,
+      );
+      Navigator.pop(context);
+
+      // Se a autenticação for bem-sucedida, você pode fazer algo aqui, se necessário.
+    } on FirebaseAuthException catch (e) {
+      // Se ocorrer uma exceção durante a autenticação, exiba a mensagem de erro.
+      Navigator.pop(context); // Feche o ProgressDialog
+      mostrarErroDialog('Erro Email ou senha incorreto');
+    }
+  }
+
+  void mostrarErroDialog(String mensagem) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Row(
+            children: [
+              Icon(
+                Icons.error,
+                color: Colors.red,
+              ),
+              SizedBox(width: 10),
+              Text(
+                'Erro',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                mensagem,
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 15),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
+
+  //mensagem de erro
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +110,7 @@ class LoginPage extends StatelessWidget {
                           size: 100,
                         ),
                         const SizedBox(height: 50),
-                        Text(
+                        const Text(
                           'Bem vindo de volta, você fez falta!',
                           style: TextStyle(
                             color: Colors.grey,
@@ -104,7 +173,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SquareTile(imagePath: 'lib/images/iconsgoogle.png'),
@@ -123,7 +192,7 @@ class LoginPage extends StatelessWidget {
                             const SizedBox(
                               width: 4,
                             ),
-                            Text(
+                            const Text(
                               'Registre-se agora',
                               style: TextStyle(
                                 color: Colors.blue,
