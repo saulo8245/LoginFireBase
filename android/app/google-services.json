@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "326218314719",
+    "project_id": "autenticacaoestagio",
+    "storage_bucket": "autenticacaoestagio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326218314719:android:b771d679f984e372ca0a6a",
+        "android_client_info": {
+          "package_name": "com.example.moedas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdz5SR9HPj0IMOFafjc0IOKa0b3n6ro9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
